@@ -138,6 +138,12 @@ header.hero {
   word-break: break-all;
 }
 
+.glass__meta {
+  color: var(--muted);
+  margin: 0.2rem 0 0.6rem;
+  word-break: break-all;
+}
+
 .glass__hint {
   color: var(--muted);
   margin-top: 1.1rem;

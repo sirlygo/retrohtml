@@ -27,6 +27,7 @@
       <div class="glass">
         <p class="glass__title">Session ready</p>
         <p class="glass__url" id="glass-url">remote stream: none</p>
+        <p class="glass__meta" id="glass-folder">RetroBat folder: not set</p>
         <div class="chips">
           <span class="chip">WebRTC</span>
           <span class="chip">Reverse Proxy</span>
@@ -52,6 +53,13 @@
         <input id="endpoint" type="url" placeholder="https://your-domain.example/stream" autocomplete="off" />
         <small class="hint">Use HTTPS or WSS for best latency. Nothing is uploaded—this lives only in your browser.</small>
       </label>
+      <label class="field">
+        <span>RetroBat folder path</span>
+        <input id="folder-path" type="text" placeholder="D:\\RetroBat" autocomplete="off" />
+        <small class="hint">Save the full install folder so the page always points at your local files.</small>
+      </label>
+      <div class="note" id="folder-status">Add the folder to keep your full RetroBat files handy.</div>
+      <button class="btn ghost" id="folder-save" type="button">Remember folder path</button>
       <div class="iframe-wrap" id="iframe-wrap" hidden>
         <iframe id="stream" title="RetroBat stream" allow="gamepad *; fullscreen; clipboard-read; clipboard-write" loading="lazy"></iframe>
       </div>
