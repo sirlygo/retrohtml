@@ -78,6 +78,11 @@ header.hero {
   transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
 }
 
+.btn.full {
+  width: 100%;
+  margin-top: 0.8rem;
+}
+
 .btn.primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #0b0c12;
@@ -314,6 +319,52 @@ main {
 .faq summary {
   cursor: pointer;
   font-weight: 600;
+}
+
+.bundle {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.bundle textarea {
+  background: var(--panel-strong);
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  padding: 0.9rem 1rem;
+  color: var(--text);
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.bundle textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108, 240, 194, 0.15);
+  outline: none;
+}
+
+.bundle__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.bundle__summary {
+  background: var(--panel-strong);
+  border: 1px dashed var(--border);
+  border-radius: 0.9rem;
+  padding: 0.9rem 1rem;
+  margin: 0.7rem 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.bundle__summary p {
+  margin: 0;
+}
+
+.bundle__summary .muted {
+  color: var(--muted);
 }
 
 .footer {

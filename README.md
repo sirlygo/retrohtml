@@ -9,6 +9,8 @@ A single-page site that lets you point a browser at your own RetroBat streaming 
 
 You can also prefill the page with `?session=` in the URL, e.g.: `index.html?session=https://my-host.example/stream`.
 
+Want everything about your rig in one place? Use the **Bundle your rig** section to store your RetroBat install path, BIOS/ROM locations, versions, and notes. It saves locally and can be exported as JSON for another device.
+
 ## Notes
 - Checklist progress is stored in `localStorage` for convenience.
 - The page never uploads endpoints or content; everything stays in your browser.
