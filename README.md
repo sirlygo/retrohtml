@@ -2,15 +2,17 @@
 
 A single-page site that lets you point a browser at your own RetroBat streaming endpoint so you can play your personal collection from anywhere. It stores the URL locally, includes a host-prep checklist, and never distributes ROMs/BIOS files.
 
-## Usage
-1. Host RetroBat on your PC and enable a streamer like Sunshine/Moonlight, Parsec, or Steam Remote Play.
-2. Secure the connection (VPN, reverse proxy, or SSH tunnel) and copy the HTTPS/WSS stream URL.
-3. Open `index.html` in your browser, paste the URL, and click **Launch session**. The page remembers your last endpoint.
-4. Add your full RetroBat folder path so the page always points at your install when you bundle setup details.
+## Quick start
+1. **Clone or download** this repo anywhere you can run a browser.
+2. **Serve the page locally (recommended):** from the project root run `python3 -m http.server 8000` and open http://localhost:8000 in your browser. You can also double-click `index.html` to open it directly if you prefer.
+3. **Prepare your host PC:** launch RetroBat, start your preferred streamer (Sunshine/Moonlight, Parsec, Steam Remote Play), and confirm the stream URL works from inside your network.
+4. **Secure the connection:** set up a VPN, reverse proxy, or SSH tunnel so you have an HTTPS/WSS endpoint you trust. Copy that URL.
+5. **Launch a session:** paste the HTTPS/WSS stream URL into the page, click **Launch session**, and enjoy. The page remembers your last endpoint automatically.
+6. **Bundle your rig (optional):** add your RetroBat install path plus BIOS/ROM locations, versions, and notes in the **Bundle your rig** section. It saves locally and can be exported as JSON to another device.
 
-You can also prefill the page with `?session=` in the URL, e.g.: `index.html?session=https://my-host.example/stream`.
+You can prefill the page with `?session=` in the URL, e.g.: `index.html?session=https://my-host.example/stream`.
 
-Want everything about your rig in one place? Use the **Bundle your rig** section to store your RetroBat install path, BIOS/ROM locations, versions, and notes. It saves locally and can be exported as JSON for another device.
+Need a clean slate? Use your browser’s storage controls to clear localStorage for the page, then reload.
 
 ## Notes
 - Checklist progress is stored in `localStorage` for convenience.
