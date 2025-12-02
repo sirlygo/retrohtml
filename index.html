@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RetroBat Anywhere</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">RetroBat · Remote first</p>
+      <h1>Spin up your RetroBat rig and play from anywhere.</h1>
+      <p class="lede">
+        Securely tunnel to your home setup, launch RetroBat, and stream gameplay in the browser or your favorite client. No ROMs or BIOS files are distributed—just your own hardware, your own library.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" href="#remote-session">Open remote play</a>
+        <a class="btn ghost" href="#how">Setup guide</a>
+      </div>
+      <div class="status-pill" id="status-pill">Waiting for host...</div>
+    </div>
+    <div class="hero__visual">
+      <div class="glass">
+        <p class="glass__title">Session ready</p>
+        <p class="glass__url" id="glass-url">remote stream: none</p>
+        <div class="chips">
+          <span class="chip">WebRTC</span>
+          <span class="chip">Reverse Proxy</span>
+          <span class="chip">Controller Passthrough</span>
+        </div>
+        <p class="glass__hint">Start RetroBat on your host PC, then click “Launch session.”</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="remote-session" class="panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Remote session</p>
+          <h2>Point the page at your streaming endpoint</h2>
+          <p class="lede">Paste the secure URL for your stream (Sunshine/Moonlight, Parsec, Steam Link, etc.). The page remembers it locally so you can reconnect quickly.</p>
+        </div>
+        <button class="btn primary" id="launch">Launch session</button>
+      </div>
+      <label class="field">
+        <span>Remote stream URL</span>
+        <input id="endpoint" type="url" placeholder="https://your-domain.example/stream" autocomplete="off" />
+        <small class="hint">Use HTTPS or WSS for best latency. Nothing is uploaded—this lives only in your browser.</small>
+      </label>
+      <div class="iframe-wrap" id="iframe-wrap" hidden>
+        <iframe id="stream" title="RetroBat stream" allow="gamepad *; fullscreen; clipboard-read; clipboard-write" loading="lazy"></iframe>
+      </div>
+      <p class="note">Only connect to endpoints you control. Keep your game library legal by dumping your own cartridges and discs.</p>
+    </section>
+
+    <section id="checklist" class="panel split">
+      <div>
+        <p class="eyebrow">Host prep</p>
+        <h2>Run RetroBat at home</h2>
+        <ul class="steps" id="checklist-steps">
+          <li data-key="power">Power on your RetroBat PC and launch the frontend.</li>
+          <li data-key="sunshine">Start your streaming host (Sunshine/Parsec/Steam Remote Play).</li>
+          <li data-key="ports">Open/forward the streaming port via your router or a VPN tunnel.</li>
+          <li data-key="controller">Plug in your controllers or enable virtual gamepads.</li>
+          <li data-key="security">Protect access with strong credentials and 2FA where available.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Connection notes</p>
+        <div class="callout">
+          <h3>Stay in control</h3>
+          <p>Use a VPN or reverse proxy instead of exposing raw ports when possible. For the best latency, keep your host on wired Ethernet.</p>
+        </div>
+        <div class="callout">
+          <h3>Know what’s legal</h3>
+          <p>RetroBat is a frontend. Only load ROMs and BIOS files you dumped yourself. This page doesn’t distribute content and can’t fetch any for you.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="panel grid">
+      <div>
+        <p class="eyebrow">Quick start</p>
+        <h2>Set up access in three steps</h2>
+        <ol class="steps numbered">
+          <li><strong>Host.</strong> Launch RetroBat, start your streaming app, and verify you can connect locally.</li>
+          <li><strong>Secure.</strong> Use Tailscale/ZeroTier, a reverse proxy, or SSH tunneling to create a private URL.</li>
+          <li><strong>Connect.</strong> Paste the URL above, hit “Launch session,” and play.</li>
+        </ol>
+      </div>
+      <div>
+        <p class="eyebrow">Troubleshooting</p>
+        <ul class="faq">
+          <li>
+            <details>
+              <summary>Low framerate</summary>
+              <p>Lower the stream bitrate/resolution in your host app and favor hardware encoding (NVENC/AMF/Quick Sync).</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>Controller not detected</summary>
+              <p>Enable gamepad passthrough in your streamer. Chrome/Edge support the Gamepad API when the tab is active.</p>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary>Black screen</summary>
+              <p>Ensure RetroBat is running on a GPU output. Headless rigs may need a dummy HDMI dongle.</p>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built for your own RetroBat rig. Keep it personal, keep it legal, and enjoy the classics anywhere.</p>
+  </footer>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
