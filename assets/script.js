@@ -10,6 +10,10 @@ const bundleSummary = document.querySelector('#bundle-summary');
 const bundleSave = document.querySelector('#bundle-save');
 const bundleClear = document.querySelector('#bundle-clear');
 const bundleExport = document.querySelector('#bundle-export');
+const folderInput = document.querySelector('#folder-path');
+const folderStatus = document.querySelector('#folder-status');
+const folderSave = document.querySelector('#folder-save');
+const glassFolder = document.querySelector('#glass-folder');
 const bundleFields = {
   root: document.querySelector('#bundle-root'),
   bios: document.querySelector('#bundle-bios'),
@@ -21,6 +25,7 @@ const bundleFields = {
 const STORAGE_KEY = 'retrobat-endpoint';
 const STEP_KEY = 'retrobat-steps';
 const BUNDLE_KEY = 'retrobat-bundle';
+const FOLDER_KEY = 'retrobat-folder'; // stores the user's RetroBat install directory
 
 function readSteps() {
   try {
@@ -75,6 +80,57 @@ function hydrateEndpoint() {
     glassUrl.textContent = `remote stream: ${formatUrl(endpoint)}`;
     setStatus('Endpoint loaded', true);
   }
+}
+
+function setFolderUI(path) {
+  if (folderInput) folderInput.value = path;
+  if (folderStatus) {
+    folderStatus.textContent = path
+      ? `Pointing at your RetroBat folder: ${path}`
+      : 'Add the full RetroBat folder path so the page always references your files.';
+  }
+  if (glassFolder) {
+    glassFolder.textContent = path ? `RetroBat folder: ${path}` : 'RetroBat folder: not set';
+  }
+}
+
+function hydrateFolder() {
+  const saved = localStorage.getItem(FOLDER_KEY) || '';
+
+  setFolderUI(saved);
+
+  if (!saved) return;
+
+  const bundle = readBundle();
+  if (!bundle.root) {
+    const merged = { ...bundle, root: saved };
+    persistBundle(merged);
+    renderBundleSummary(merged);
+    if (bundleFields.root) bundleFields.root.value = saved;
+  }
+
+  setStatus('RetroBat folder loaded', true);
+}
+
+function saveFolder() {
+  const path = folderInput?.value.trim() || '';
+
+  if (!path) {
+    setStatus('Add your RetroBat folder path first');
+    setFolderUI('');
+    return;
+  }
+
+  localStorage.setItem(FOLDER_KEY, path);
+  setFolderUI(path);
+
+  const bundle = readBundle();
+  const merged = { ...bundle, root: path };
+  persistBundle(merged);
+  renderBundleSummary(merged);
+  if (bundleFields.root) bundleFields.root.value = path;
+
+  setStatus('RetroBat folder saved', true);
 }
 
 function launch() {
@@ -212,9 +268,27 @@ endpointInput.addEventListener('input', () => {
 hydrateEndpoint();
 initChecklist();
 hydrateBundle();
+hydrateFolder();
 
 if (bundleSave && bundleClear && bundleExport) {
   bundleSave.addEventListener('click', saveBundle);
   bundleClear.addEventListener('click', clearBundle);
   bundleExport.addEventListener('click', exportBundle);
+}
+
+if (folderSave) {
+  folderSave.addEventListener('click', saveFolder);
+}
+
+if (folderInput) {
+  folderInput.addEventListener('input', () => {
+    const pending = folderInput.value.trim();
+    if (!pending) {
+      setFolderUI('');
+      return;
+    }
+    if (folderStatus) {
+      folderStatus.textContent = `Ready to save: ${pending}`;
+    }
+  });
 }
