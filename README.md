@@ -1,34 +1,61 @@
 # RetroBat Anywhere
 
-A single-page site that lets you point a browser at your own RetroBat streaming endpoint so you can play your personal collection from anywhere. It stores the URL locally, includes a host-prep checklist, and never distributes ROMs/BIOS files.
+A friendly single-page helper for launching your RetroBat streaming endpoint from any browser. Point it at your own Sunshine/Moonlight, Parsec, or Steam Remote Play URL, keep a shareable bundle of your setup, and reconnect quickly on new devices without exposing your library.
+
+## Highlights
+- Remembers your last stream endpoint so you are a click away from playing again.
+- Tracks a lightweight host-prep checklist with progress saved locally.
+- Lets you describe your RetroBat install (paths, BIOS/ROM locations, versions, notes) and export it as JSON for another machine.
+- Works fully client-side—no accounts, servers, or external dependencies required.
+
+## What you need
+- A modern browser with `localStorage` enabled.
+- A working remote streaming URL from your host (Sunshine/Moonlight, Parsec, Steam Remote Play, or similar).
+- (Recommended) A trusted VPN, reverse proxy, or SSH tunnel that exposes the stream over HTTPS/WSS.
 
 ## Quick start
-1. **Clone or download** this repo anywhere you can run a browser.
-2. **Serve the page locally (recommended):** from the project root run `python3 -m http.server 8000` and open http://localhost:8000 in your browser. You can also double-click `index.html` to open it directly if you prefer.
-3. **Prepare your host PC:** launch RetroBat, start your preferred streamer (Sunshine/Moonlight, Parsec, Steam Remote Play), and confirm the stream URL works from inside your network.
-4. **Secure the connection:** set up a VPN, reverse proxy, or SSH tunnel so you have an HTTPS/WSS endpoint you trust. Copy that URL.
-5. **Launch a session:** paste the HTTPS/WSS stream URL into the page, click **Launch session**, and enjoy. The page remembers your last endpoint automatically.
-6. **Bundle your rig (optional):** add your RetroBat install path plus BIOS/ROM locations, versions, and notes in the **Bundle your rig** section. It saves locally and can be exported as JSON to another device.
+1. **Get the files:** clone or download this repo anywhere you can open a browser.
+2. **Serve locally (recommended):** run `python3 -m http.server 8000` from the project root, then visit `http://localhost:8000`. You can also double-click `index.html` to open it directly.
+3. **Prep your host:** launch RetroBat, start your streamer, and confirm the endpoint works on your LAN.
+4. **Secure access:** expose the stream through your VPN/proxy/tunnel so you have an HTTPS/WSS URL ready to paste.
+5. **Launch a session:** enter the stream URL, click **Launch session**, and you are in. The page remembers the endpoint for next time.
 
-You can prefill the page with `?session=` in the URL, e.g.: `index.html?session=https://my-host.example/stream`.
+## Host prep checklist
+The on-page checklist tracks steps like starting RetroBat, enabling your streamer, and confirming controllers. Click items as you complete them; progress is stored locally so you can pick up where you left off on the same browser.
 
-Need a clean slate? Use your browser’s storage controls to clear localStorage for the page, then reload.
+## Launching from a shared URL
+You can prefill the page by adding `?session=<https-or-wss-url>` to the URL, for example:
 
-## ZeroTier setup (VPN-style access)
-ZeroTier is a fast way to give your host PC and your remote device a shared, private network so your streaming endpoint feels like it is on the same LAN. Here is a friendly walkthrough:
+```
+index.html?session=https://my-host.example/stream
+```
 
-1. **Create your ZeroTier account and network:** sign in at https://my.zerotier.com, click **Create A Network**, and note the 16-digit network ID.
-2. **Install the ZeroTier client on your host PC:** grab the installer for Windows/macOS/Linux from https://www.zerotier.com/download/, sign in, and join your network with `zerotier-cli join <network-id>` (or the GUI’s **Join Network** button). Allow the virtual adapter when prompted.
-3. **Approve and authorize the host:** in the ZeroTier web console, find the host entry under **Members**, check **Auth?**, and optionally assign an easy-to-remember managed IP (e.g., `10.147.20.10`). Leave **Allow TCP/UDP** enabled.
-4. **Repeat on your client device:** install ZeroTier, join the same network, and authorize it in the console. Assign a managed IP if you want predictable addresses.
-5. **Test connectivity:** open a terminal on the client and `ping` the host’s managed IP. If blocked, temporarily disable firewalls or add rules for the ZeroTier interface, then re-test.
-6. **Expose your stream endpoint on ZeroTier:** configure your streamer (Sunshine, Parsec, Steam, etc.) to listen on all interfaces or explicitly on the ZeroTier adapter. If your app binds to specific addresses, use the host’s managed IP.
-7. **Use the ZeroTier URL in RetroBat Anywhere:** build your streaming URL with the host’s managed IP and port (e.g., `https://10.147.20.10:47990`). Paste it into the page and launch your session.
-8. **Keep it tidy:** label members in the ZeroTier console, disable unused devices, and keep your account protected with MFA. Remove authorization for lost devices immediately.
+When a query parameter is present, it overrides the saved endpoint for that visit.
 
-That is it—you now have a cozy, LAN-like tunnel for RetroBat streaming without exposing ports to the public internet.
+## Bundle your rig
+Use the **Bundle your rig** panel to capture key details:
+- **Install location, BIOS directory, ROM path, versions, notes**
+- **RetroBat folder reference:** an optional folder path you can save separately so the UI always points to your files.
 
-## Notes
-- Checklist progress is stored in `localStorage` for convenience.
-- The page never uploads endpoints or content; everything stays in your browser.
-- Keep your library legal—dump your own cartridges and discs.
+Click **Save bundle** to persist the details, **Clear bundle** to reset, and **Export bundle** to copy a JSON snapshot for another device. The exported JSON can be pasted into your browser devtools and written back to `localStorage` to prefill the page elsewhere.
+
+## Where data lives
+Everything stays on your device in `localStorage`:
+- `retrobat-endpoint`: your most recent stream URL.
+- `retrobat-steps`: checklist completion state.
+- `retrobat-bundle`: bundle details (paths, versions, notes).
+- `retrobat-folder`: the saved RetroBat install directory used to keep the bundle in sync.
+
+Use your browser’s storage controls to clear these keys if you want a clean slate.
+
+## Security notes
+- Always use a network path you trust (VPN, reverse proxy, or SSH tunnel) before pasting a remote endpoint.
+- Keep ROMs/BIOS private and legal—stick to content you own.
+- Disable authorization for lost devices in your streaming tool as soon as possible.
+
+## Troubleshooting
+- **Status pill stays idle:** verify the stream URL works locally and that HTTPS/WSS is reachable from your device.
+- **Controllers not detected:** confirm your streamer sees them on the host, then relaunch the session.
+- **Clipboard export blocked:** some browsers restrict clipboard access; if so, manually copy the JSON shown after exporting.
+
+Enjoy your retro sessions anywhere, with your own gear and no extra setup beyond the browser.
